@@ -1,0 +1,26 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build Docker image
+        run: docker build -t myflaskapp .
+
+      - name: Deploy Docker container
+        run: |
+          docker stop myflaskapp || true
+          docker rm myflaskapp || true
+          docker run -d -p 5000:5000 --name myflaskapp myflaskapp
