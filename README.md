@@ -1,1 +1,1 @@
-# devops-projec
+# devops-proje
